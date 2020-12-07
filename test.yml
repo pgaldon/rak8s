@@ -1,0 +1,10 @@
+- hosts: all:!local
+  name: "test"
+  tasks:
+    - name: "Display"
+      debug:
+        msg: "{{ hostvars[item]['ansible_eth0']['ipv4']['address'] }} {{ item }} {{ item }}"
+      with_items: 
+        - "{{ groups.cluster }}"
+        
+      #hostvars['foo.example.com']['ansible_eth0']['ipv4']['address'] 

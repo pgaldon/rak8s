@@ -1,10 +1,11 @@
 ---
 - name: "Reset Kubernetes"
   shell: echo $(kubeadm reset && echo 'true') 
+  become: yes
 
 - name: "Remove docker images" 
   shell: echo $(docker rmi --force $(docker images --all -q) && echo 'true')
-  become: true
+  become: yes
 
 - name: "apt-get update"
   apt:
@@ -27,6 +28,14 @@
   become: True
   loop:
     - /var/log/pods
+
+# Doc: http://manpages.ubuntu.com/manpages/trusty/man8/dphys-swapfile.8.html
+- name: Enable Swap
+  lineinfile:
+    path: /etc/dphys-swapfile
+    regexp: '^CONF_SWAPSIZE=0'
+    line: CONF_SWAPSIZE=
+  register: swap    
 
 - name: Reboot
   reboot:

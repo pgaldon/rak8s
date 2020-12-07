@@ -1,13 +1,13 @@
-[dev]
-rak8s000    ansible_host=192.168.86.200
-rak8s001    ansible_host=192.168.86.201
-rak8s002    ansible_host=192.168.86.202
+[cluster]
+rasp1    ansible_host=192.168.1.47
+rasp2    ansible_host=192.168.1.43
+rasp3    ansible_host=192.168.1.20
 
-[prod]
-rak8s003    ansible_host=192.168.86.203
-rak8s004    ansible_host=192.168.86.204
-rak8s005    ansible_host=192.168.86.205
+[local]
+kali    ansible_host=localhost
 
 [master]
-rak8s000
-rak8s003
+rasp3
+
+[worker]
+rasp2

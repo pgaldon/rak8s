@@ -1,0 +1,34 @@
+- name: "Get kubectl latest version information"
+  uri:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable.txt
+    method: GET
+    return_content: yes
+  register: result
+
+- name: "Display result"
+  debug:
+    var: result
+    verbosity: 1
+
+- name: "Get kubectl latest version"
+  set_fact:
+    kubectl_version: "{{ result.content }}"
+
+- name: "Display kubectl_version"
+  debug:
+    var: kubectl_version
+    verbosity: 1
+
+- name: "Get kubectl {{ kubectl_version }}"    
+  uri:
+    url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+    dest: "/usr/bin/"
+    mode: 0750
+    status_code: 
+        - 200
+        - 304
+    follow_redirects: safe
+
+
+#- name: "kubectl bin setup"
+  

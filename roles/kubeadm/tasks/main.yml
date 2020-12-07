@@ -20,11 +20,33 @@
   command: /usr/bin/apt-mark hold docker-ce
   when: docker_installed.changed
 
-- name: Pass bridged IPv4 traffic to iptables' chains
+- name: Change cgroup driver to systemd
+  lineinfile:
+    path: /lib/systemd/system/docker.service
+    regexp: "^(.*ExecStart=/usr/bin/dockerd.*)$"
+    backrefs: yes
+    backup: yes
+    line: '\1 --exec-opt native.cgroupdriver=systemd' 
+    state: present
+  when: docker_installed.changed
+
+- name: Enable docker service
+  systemd:
+    name: docker.service
+    enabled: yes 
+    daemon_reload: yes
+    state: restarted
+  become: yes
+  when: docker_installed.changed
+  
+- name: Pass bridged IPv4 && IPv6traffic to iptables' chains
   sysctl:
-    name: net.bridge.bridge-nf-call-iptables
+    name: "{{ item }}"
     value: '1'
     state: present
+  with_items:
+    - net.bridge.bridge-nf-call-iptables
+    - net.bridge.bridge-nf-call-ip6tables
 
 # https://kubernetes.io/docs/setup/independent/install-kubeadm/
 - name: Install apt-transport-https

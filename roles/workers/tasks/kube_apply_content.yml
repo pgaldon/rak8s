@@ -1,0 +1,26 @@
+- name: "Copy ingress rbac"
+  copy:
+    dest: "/home/pi/{{ item }}"
+    src: "./kube_content/{{ item }}"
+  with_items:
+    - "traefik_crds.yml"
+    - "traefik_rbac.yml"
+    - "kube_ingress_service.yml"
+    - "kube_ingress_daemonset.yml"
+
+#- name: "kubectl delete ingress"
+#  shell: "kubectl delete -f /home/pi/{{ item }}"
+#  become: yes
+#  with_items:
+#    - "traefik_crds_rbac.yml"
+#    - "kube_ingress_service.yml"
+#    - "kube_ingress_daemonset.yml"
+
+- name: "kubectl apply ingress"
+  shell: "kubectl apply -f /home/pi/{{ item }}"
+  become: yes
+  with_items:
+    - "traefik_crds.yml"
+    - "traefik_rbac.yml"
+    - "kube_ingress_service.yml"
+    - "kube_ingress_daemonset.yml"

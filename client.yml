@@ -1,0 +1,12 @@
+- hosts: localhost
+  roles:
+    - client  
+
+- hosts: master
+  tasks:
+    - name: "Fetch kube config"
+      fetch:
+        src: "/root/.kube/config"
+        dest: "/home/antraouder/Documents/kube_config/kube_config_rasp"
+        flat: yes
+      become: yes
