@@ -1,11 +1,11 @@
-#- hosts: all:!local
-#  roles:
-#    - common
-#    - kubeadm
-#
-#- hosts: master
-#  roles:
-#    - master
+- hosts: all:!local
+  roles:
+    - common
+    - kubeadm
+
+- hosts: master
+  roles:
+    - master
 #    - dashboard
 
 - hosts: worker

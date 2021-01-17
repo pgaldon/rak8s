@@ -6,3 +6,6 @@
 - name: "Kube reset init & join"
   include_tasks: "kube_flannel.yml"
 
+- name: apply kube content
+  include_tasks:
+      file: "kube_apply_content.yml"

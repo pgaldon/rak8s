@@ -1,13 +1,14 @@
 [cluster]
-rasp1    ansible_host=192.168.1.47
-rasp2    ansible_host=192.168.1.43
-rasp3    ansible_host=192.168.1.20
+rasp1    ansible_host=192.168.1.40
+rasp2    ansible_host=192.168.1.35
+rasp3    ansible_host=192.168.1.41
 
 [local]
 kali    ansible_host=localhost
 
 [master]
-rasp3
+rasp1
 
 [worker]
 rasp2
+rasp3
